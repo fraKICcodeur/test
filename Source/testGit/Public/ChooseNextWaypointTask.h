@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
+#include "Runtime/AIModule/Classes/BehaviorTree/Blackboard/BlackboardKeyType.h"
 #include "ChooseNextWaypointTask.generated.h"
-
 /**
  * 
  */
@@ -15,7 +15,8 @@ class TESTGIT_API UChooseNextWaypointTask : public UBTTaskNode
 	GENERATED_BODY()
 		virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
-	
-	
-	
+	UPROPERTY(EditAnywhere, Category = Settings)
+	FBlackboardKeySelector waypointKey;
+private:
+	int32 currentIndex = 0;
 };
