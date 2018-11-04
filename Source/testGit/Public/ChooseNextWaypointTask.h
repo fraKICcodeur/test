@@ -14,8 +14,8 @@ class TESTGIT_API UChooseNextWaypointTask : public UBTTaskNode
 {
 	GENERATED_BODY()
 		virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
-
-	UPROPERTY(EditAnywhere, Category = Settings)
+protected:
+	UPROPERTY(EditAnywhere, Category = "Settings")
 	FBlackboardKeySelector waypointKey;
 private:
 	int32 currentIndex = 0;

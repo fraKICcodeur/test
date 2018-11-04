@@ -3,29 +3,32 @@
 //#include "ChooseNextWaypointTask.h"
 #include "../Public/ChooseNextWaypointTask.h"
 #include "Runtime/AIModule/Classes/AIController.h"
-#include "../TP_ThirdPerson/TP_ThirdPersonCharacter.h"
-#include "Runtime/AIModule/Classes/BehaviorTree/BlackboardComponent.h"
-
+#include "BehaviorTree/BlackboardComponent.h"
+#include "../Public/patrollingRoute.h"
+#include "Engine/TargetPoint.h"
 EBTNodeResult::Type UChooseNextWaypointTask::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {
 	if (!OwnerComp.GetAIOwner())
 	{
 		return EBTNodeResult::Succeeded;
 	}
-	ATP_ThirdPersonCharacter* character = Cast<ATP_ThirdPersonCharacter>(OwnerComp.GetAIOwner()->GetPawn());
+	APawn* character= OwnerComp.GetAIOwner()->GetPawn();
 	if (character)
 	{
-		const TArray<ATargetPoint*>& tPoints = character->GetTargetPoints();
-		int nbPoints = tPoints.Num();
-		if (nbPoints > currentIndex)
+		UpatrollingRoute* route = Cast<UpatrollingRoute>( character->GetComponentByClass(UpatrollingRoute::StaticClass()));
+		if (route)
 		{
-			ATargetPoint* nextPoint = tPoints[currentIndex];
-			UBlackboardComponent* BlackboardComp = OwnerComp.GetBlackboardComponent();
-			if (BlackboardComp && nextPoint)
+			const TArray<ATargetPoint*>& tPoints = route->GetTargetPoints();
+			int nbPoints = tPoints.Num();
+			if (nbPoints > currentIndex)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("black board comp: %s | going to reach: %s"), *BlackboardComp->GetName(), *nextPoint->GetName());
-				BlackboardComp->SetValueAsObject(waypointKey.SelectedKeyName, nextPoint);
-				currentIndex = nbPoints <= 0 ? 0 : (currentIndex + 1) % nbPoints;
+				ATargetPoint* nextPoint = tPoints[currentIndex];
+				UBlackboardComponent* BlackboardComp = OwnerComp.GetBlackboardComponent();
+				if (BlackboardComp && nextPoint)
+				{
+					BlackboardComp->SetValueAsObject(waypointKey.SelectedKeyName, nextPoint);
+					currentIndex = nbPoints <= 0 ? 0 : (currentIndex + 1) % nbPoints;
+				}
 			}
 		}
 	}

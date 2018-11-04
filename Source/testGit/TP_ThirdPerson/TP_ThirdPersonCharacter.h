@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Runtime/Engine/Classes/Engine/TargetPoint.h"
 #include "TP_ThirdPersonCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -30,12 +29,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	const TArray<ATargetPoint*>& GetTargetPoints() const { return targetPoints; }
 
-	UPROPERTY(EditAnywhere, Category = AI_path)
-	TArray<ATargetPoint*> targetPoints;
-
-protected:
 
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();
