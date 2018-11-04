@@ -10,12 +10,12 @@ EBTNodeResult::Type UChooseNextWaypointTask::ExecuteTask(UBehaviorTreeComponent 
 {
 	if (!OwnerComp.GetAIOwner())
 	{
-		return EBTNodeResult::Succeeded;
+		return EBTNodeResult::Failed;
 	}
 	APawn* character= OwnerComp.GetAIOwner()->GetPawn();
 	if (character)
 	{
-		UpatrollingRoute* route = Cast<UpatrollingRoute>( character->GetComponentByClass(UpatrollingRoute::StaticClass()));
+		UpatrollingRoute* route = Cast<UpatrollingRoute>( character->FindComponentByClass<UpatrollingRoute>());
 		if (route)
 		{
 			const TArray<ATargetPoint*>& tPoints = route->GetTargetPoints();
@@ -28,9 +28,10 @@ EBTNodeResult::Type UChooseNextWaypointTask::ExecuteTask(UBehaviorTreeComponent 
 				{
 					BlackboardComp->SetValueAsObject(waypointKey.SelectedKeyName, nextPoint);
 					currentIndex = nbPoints <= 0 ? 0 : (currentIndex + 1) % nbPoints;
+					return EBTNodeResult::Succeeded;
 				}
 			}
 		}
 	}
-	return EBTNodeResult::Succeeded;
+	return EBTNodeResult::Failed;
 }
