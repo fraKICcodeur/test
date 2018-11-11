@@ -164,6 +164,8 @@ void AtestGitCharacter::OnFire()
 
 				// spawn the projectile at the muzzle
 				World->SpawnActor<AtestGitProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+
+				OnHasFired();
 			}
 		}
 	}

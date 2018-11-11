@@ -45,9 +45,12 @@ class AtestGitCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UMotionControllerComponent* L_MotionController;
 
+
 public:
 	AtestGitCharacter();
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Firing")
+	void OnHasFired();
 protected:
 	virtual void BeginPlay();
 
